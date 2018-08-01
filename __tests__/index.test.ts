@@ -1,14 +1,18 @@
 "use strict";
 
-import {add} from "../src/index";
+import removeDuplicateCSS from "../src/index";
+import {resolve} from path;
 
 describe("Test main functions", () => {
   it("Should add the two and numbers and return the result", done => {
-    const expected = 5;
-    const input1 = 3;
-    const input2 = 2;
+    const expected = "";
 
-    expect(add(input1, input2)).toBe(expected);
+    const output = removeDuplicateCSS({
+      input: "./__tests__/assets/input.css",
+      targets: "./__tests__/targets/**/*.css",
+    });
+
+    expect(output).toBe(expected);
     done();
   })
 })

@@ -1,5 +1,7 @@
 "use strict";
 
-export function add(a: number, b: number) : number {
-  return a + b;
+import {removeDuplicateCSSOptions} from "./interfaces";
+
+export default function removeDuplicateCSS(options: removeDuplicateCSSOptions) : string {
+  return "";
 }
