@@ -1,12 +1,13 @@
-import fs from "fs";
-import util from "util";
-import postcss from "postcss";
-import glob from "fast-glob";
+"use strict";
+
+const fs = require("fs");
+const util = require("util");
+const postcss = require("postcss");
+const glob = require("fast-glob");
 
 const getFileContent = util.promisify(fs.readFile);
 
-export default postcss.plugin<SlashCSS.Options>('slashcss', (opts) => {
-
+function slashCSSPlugin (opts = {}) {
   if (!opts || !opts.targets) {
     throw new Error("This plugins needs an option object with a targets propertie");
   }
@@ -44,4 +45,6 @@ export default postcss.plugin<SlashCSS.Options>('slashcss', (opts) => {
       throw err;
     }
   };
-});
+}
+
+module.exports = postcss.plugin('slashcss', slashCSSPlugin);

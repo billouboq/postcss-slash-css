@@ -1,10 +1,10 @@
 "use strict";
 
-import postcss from "postcss";
-import removeDuplicateCSS from "../src/index";
+const postcss = require("postcss");
+const slashCSS = require("../index");
 
-function run(input: string, output: string, opts: object) {
-  return postcss([ removeDuplicateCSS(opts) ])
+function run(input, output, opts) {
+  return postcss([ slashCSS(opts) ])
     .process(input)
     .then(result => {
       expect(result.css.replace(/\s/g,'')).toEqual(output);
@@ -30,6 +30,6 @@ describe("Test main functions", () => {
   });
 
   it("Should throw an error since we dont pass targets option", async () => {
-    expect(() => removeDuplicateCSS(null)).toThrow("This plugins needs an option object with a targets propertie");
+    expect(() => slashCSS(null)).toThrow("This plugins needs an option object with a targets propertie");
   });
 })

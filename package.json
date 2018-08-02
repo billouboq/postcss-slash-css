@@ -17,15 +17,10 @@
   "repository": "https://github.com/billouboq/postcss-slashcss.git",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "jest tests && tsc",
     "test": "jest tests"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.1",
-    "@types/node": "^10.5.5",
-    "jest": "^23.4.2",
-    "ts-jest": "^23.0.1",
-    "typescript": "^3.0.1"
+    "jest": "^23.4.2"
   },
   "dependencies": {
     "fast-glob": "^2.2.2",
