@@ -15,9 +15,9 @@ function run(input: string, output: string, opts: object) {
 describe("Test main functions", () => {
   it("Should remove duplicate css properties", () => {
     return run(
-      'a{font-size: 12px; color: blue; font-family: Roboto}',
-      'a{color:blue}',
-      {target: "./__tests__/assets/style.css"}
+      'a{font-size: 12px; color: blue; font-family: Roboto; position: relative;}',
+      'a{position:relative;}',
+      {targets: "./__tests__/assets/**/*.css"}
     );
   })
 })

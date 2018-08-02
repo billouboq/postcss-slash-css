@@ -19,6 +19,7 @@
     "typescript": "^3.0.1"
   },
   "dependencies": {
+    "fast-glob": "^2.2.2",
     "postcss": "^7.0.2"
   }
 }
