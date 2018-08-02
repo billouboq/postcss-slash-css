@@ -1,3 +1,9 @@
+declare namespace RemoveDuplicateCSS {
+  interface Options {
+    targets: string,
+  }
+}
+
 declare namespace AST {
   interface Node {
     selector: string,

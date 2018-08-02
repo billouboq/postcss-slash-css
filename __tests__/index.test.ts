@@ -19,5 +19,17 @@ describe("Test main functions", () => {
       'a{position:relative;}',
       {targets: "./__tests__/assets/**/*.css"}
     );
-  })
+  });
+
+  it("Should remove duplicate css selector since all props are removed", () => {
+    return run(
+      'a{font-size: 12px; color: blue; font-family: Roboto;}',
+      '',
+      {targets: "./__tests__/assets/**/*.css"}
+    );
+  });
+
+  it("Should throw an error since we dont pass targets option", async () => {
+    expect(() => removeDuplicateCSS(null)).toThrow("This plugins needs an option object with a targets propertie");
+  });
 })
