@@ -25,5 +25,9 @@
   "dependencies": {
     "fast-glob": "^2.2.2",
     "postcss": "^7.0.2"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">7.6.0"
   }
 }
