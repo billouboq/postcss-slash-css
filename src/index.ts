@@ -1,6 +1,6 @@
 import postcss from "postcss";
 import glob from "fast-glob";
-import {getFileContent, formatAST} from "./utils";
+import { getFileContent } from "./utils";
 
 export default postcss.plugin<RemoveDuplicateCSS.Options>('RemoveDuplicateCSS', (opts) => {
   if (!opts || !opts.targets) {
@@ -9,29 +9,33 @@ export default postcss.plugin<RemoveDuplicateCSS.Options>('RemoveDuplicateCSS', 
 
   return async (root) => {
     try {
+      // get all external targets files
       const cssFilesPath = await glob(opts.targets);
+      const getFileContentPromises = cssFilesPath.map(filePath => getFileContent(filePath));
+      const cssFilesContent = await Promise.all(getFileContentPromises);
 
-      for (let i = 0; i < cssFilesPath.length; i++) {
-        const cssContent = await getFileContent(cssFilesPath[i]);
-        const cssAst = postcss.parse(cssContent);
-        const newAst = formatAST(cssAst);
+      cssFilesContent.forEach(targetCSSContent => {
+        const targetAST = postcss.parse(targetCSSContent).nodes;
 
         root.walkRules((rule) => {
-          const findedAst = newAst.find(ast => ast.selector === rule.selector);
+          // search for duplicate selector
+          const findedAst = targetAST.find(ast => ast.selector === rule.selector);
 
           if (findedAst) {
             rule.walkDecls(function(decl) {
-              if (findedAst.props.some(prop => prop.prop === decl.prop && prop.value === decl.value)) {
+              // if css properties are the sames (props and value) remove it
+              if (findedAst.nodes.some(prop => prop.prop === decl.prop && prop.value === decl.value)) {
                 decl.remove();
               }
             });
 
+            // if selector doesn't have any props then remove selector
             if (!rule.nodes || !rule.nodes.length) {
               rule.remove();
             }
           }
         });
-      }
+      });
     } catch (err) {
       throw err;
     }

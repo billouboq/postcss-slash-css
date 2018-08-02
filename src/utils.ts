@@ -9,14 +9,5 @@ export function getFileContent(path: string): Promise<string> {
         resolve(file);
       }
     });
-  })
-}
-
-export function formatAST(ast) : AST.Node[] {
-  return ast.nodes.map(({selector, nodes}) => {
-    return {
-      selector,
-      props: nodes.map(({prop, value}) => ({prop, value}))
-    }
   });
 }
