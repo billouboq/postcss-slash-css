@@ -1,16 +1,25 @@
 {
-  "name": "RemoveDuplicateCSS",
+  "name": "postcss-slashcss",
   "version": "1.0.0",
-  "description": "",
+  "description": "PostCSS plugin to remove duplicate css between multiple files",
+  "keywords": [
+    "css",
+    "postcss",
+    "postcss-plugin",
+    "optimisation",
+    "remove",
+    "duplicate",
+    "slash",
+    "slim"
+  ],
+  "author": "Gatsbill",
+  "license": "MIT",
+  "repository": "https://github.com/billouboq/postcss-slashcss.git",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "test": "jest tests",
-    "coverage": "jest --collectCoverageFrom=src/**.js --coverage"
+    "build": "jest tests && tsc",
+    "test": "jest tests"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "@types/node": "^10.5.5",

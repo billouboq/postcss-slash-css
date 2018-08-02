@@ -5,7 +5,7 @@ import glob from "fast-glob";
 
 const getFileContent = util.promisify(fs.readFile);
 
-export default postcss.plugin<PostCSSSlasher.Options>('slasher', (opts) => {
+export default postcss.plugin<SlashCSS.Options>('slashcss', (opts) => {
 
   if (!opts || !opts.targets) {
     throw new Error("This plugins needs an option object with a targets propertie");

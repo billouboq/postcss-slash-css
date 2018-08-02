@@ -1,4 +1,4 @@
-declare namespace RemoveDuplicateCSS {
+declare namespace SlashCSS {
   interface Options {
     targets: string,
   }
