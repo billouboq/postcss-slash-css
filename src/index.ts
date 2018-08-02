@@ -5,7 +5,8 @@ import glob from "fast-glob";
 
 const getFileContent = util.promisify(fs.readFile);
 
-export default postcss.plugin<RemoveDuplicateCSS.Options>('RemoveDuplicateCSS', (opts) => {
+export default postcss.plugin<PostCSSSlasher.Options>('slasher', (opts) => {
+
   if (!opts || !opts.targets) {
     throw new Error("This plugins needs an option object with a targets propertie");
   }
@@ -18,11 +19,11 @@ export default postcss.plugin<RemoveDuplicateCSS.Options>('RemoveDuplicateCSS', 
       const cssFilesContent = await Promise.all(getFileContentPromises);
 
       cssFilesContent.forEach(targetCSSContent => {
-        const targetAST = postcss.parse(targetCSSContent).nodes;
+        const targetsAST = postcss.parse(targetCSSContent).nodes;
 
         root.walkRules((rule) => {
           // search for duplicate selector
-          const findedAst = targetAST.find(ast => ast.selector === rule.selector);
+          const findedAst = targetsAST.find(ast => ast.selector === rule.selector);
 
           if (findedAst) {
             rule.walkDecls(function(decl) {
