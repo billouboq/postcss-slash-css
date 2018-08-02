@@ -2,7 +2,7 @@
   "name": "RemoveDuplicateCSS",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "test": "jest tests",
@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^23.3.1",
+    "@types/node": "^10.5.5",
     "jest": "^23.4.2",
     "ts-jest": "^23.0.1",
     "typescript": "^3.0.1"

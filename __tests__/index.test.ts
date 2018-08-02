@@ -7,13 +7,17 @@ function run(input: string, output: string, opts: object) {
   return postcss([ removeDuplicateCSS(opts) ])
     .process(input)
     .then(result => {
-      expect(result.css).toEqual(output);
+      expect(result.css.replace(/\s/g,'')).toEqual(output);
       expect(result.warnings().length).toBe(0);
     });
 }
 
 describe("Test main functions", () => {
   it("Should remove duplicate css properties", () => {
-    return run('a{}', 'a{}', {});
+    return run(
+      'a{font-size: 12px; color: blue; font-family: Roboto}',
+      'a{color:blue}',
+      {target: "./__tests__/assets/style.css"}
+    );
   })
 })
