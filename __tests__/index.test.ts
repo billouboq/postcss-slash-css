@@ -1,18 +1,19 @@
 "use strict";
 
+import postcss from "postcss";
 import removeDuplicateCSS from "../src/index";
-import {resolve} from path;
+
+function run(input: string, output: string, opts: object) {
+  return postcss([ removeDuplicateCSS(opts) ])
+    .process(input)
+    .then(result => {
+      expect(result.css).toEqual(output);
+      expect(result.warnings().length).toBe(0);
+    });
+}
 
 describe("Test main functions", () => {
-  it("Should add the two and numbers and return the result", done => {
-    const expected = "";
-
-    const output = removeDuplicateCSS({
-      input: "./__tests__/assets/input.css",
-      targets: "./__tests__/targets/**/*.css",
-    });
-
-    expect(output).toBe(expected);
-    done();
+  it("Should remove duplicate css properties", () => {
+    return run('a{}', 'a{}', {});
   })
 })

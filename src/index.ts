@@ -1,7 +1,11 @@
 "use strict";
 
-import {removeDuplicateCSSOptions} from "./interfaces";
+import postcss from "postcss";
 
-export default function removeDuplicateCSS(options: removeDuplicateCSSOptions) : string {
-  return "";
-}
+export default postcss.plugin('RemoveDuplicateCSS', (opts) => {
+
+
+  return function (root, result) {
+
+  };
+});
