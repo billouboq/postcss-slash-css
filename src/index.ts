@@ -1,6 +1,9 @@
+import fs from "fs";
+import util from "util";
 import postcss from "postcss";
 import glob from "fast-glob";
-import { getFileContent } from "./utils";
+
+const getFileContent = util.promisify(fs.readFile);
 
 export default postcss.plugin<RemoveDuplicateCSS.Options>('RemoveDuplicateCSS', (opts) => {
   if (!opts || !opts.targets) {
@@ -11,7 +14,7 @@ export default postcss.plugin<RemoveDuplicateCSS.Options>('RemoveDuplicateCSS', 
     try {
       // get all external targets files
       const cssFilesPath = await glob(opts.targets);
-      const getFileContentPromises = cssFilesPath.map(filePath => getFileContent(filePath));
+      const getFileContentPromises = cssFilesPath.map(filePath => getFileContent(filePath, "utf-8"));
       const cssFilesContent = await Promise.all(getFileContentPromises);
 
       cssFilesContent.forEach(targetCSSContent => {
