@@ -1,5 +1,5 @@
 {
-  "name": "postcss-slashcss",
+  "name": "postcss-slash-css",
   "version": "1.0.0",
   "description": "PostCSS plugin to remove duplicate css between multiple files",
   "keywords": [
