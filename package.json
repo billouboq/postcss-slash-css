@@ -14,8 +14,8 @@
   ],
   "author": "Gatsbill",
   "license": "MIT",
-  "repository": "https://github.com/billouboq/postcss-slashcss.git",
-  "main": "./dist/index.js",
+  "repository": "https://github.com/billouboq/postcss-slash-css.git",
+  "main": "index.js",
   "scripts": {
     "test": "jest tests"
   },
