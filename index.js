@@ -7,29 +7,43 @@ const glob = require("fast-glob");
 
 const getFileContent = util.promisify(fs.readFile);
 
-function slashCSSPlugin (opts = {}) {
+function slashCSSPlugin(opts = {}) {
   if (!opts || !opts.targets) {
-    throw new Error("This plugins needs an option object with a targets propertie");
+    throw new Error(
+      "This plugins needs an option object with a targets propertie"
+    );
   }
 
-  return async (root) => {
+  if (typeof opts.targets !== "string") {
+    throw new Error("Targets option must be a string");
+  }
+
+  return async root => {
     try {
       // get all external targets files
       const cssFilesPath = await glob(opts.targets);
-      const getFileContentPromises = cssFilesPath.map(filePath => getFileContent(filePath, "utf-8"));
+      const getFileContentPromises = cssFilesPath.map(filePath =>
+        getFileContent(filePath, "utf-8")
+      );
       const cssFilesContent = await Promise.all(getFileContentPromises);
 
       cssFilesContent.forEach(targetCSSContent => {
         const targetsAST = postcss.parse(targetCSSContent).nodes;
 
-        root.walkRules((rule) => {
+        root.walkRules(rule => {
           // search for duplicate selector
-          const findedAst = targetsAST.find(ast => ast.selector === rule.selector);
+          const findedAst = targetsAST.find(
+            ast => ast.selector === rule.selector
+          );
 
           if (findedAst) {
             rule.walkDecls(function(decl) {
               // if css properties are the sames (props and value) remove it
-              if (findedAst.nodes.some(prop => prop.prop === decl.prop && prop.value === decl.value)) {
+              if (
+                findedAst.nodes.some(
+                  prop => prop.prop === decl.prop && prop.value === decl.value
+                )
+              ) {
                 decl.remove();
               }
             });
@@ -47,4 +61,4 @@ function slashCSSPlugin (opts = {}) {
   };
 }
 
-module.exports = postcss.plugin('slashcss', slashCSSPlugin);
+module.exports = postcss.plugin("slashcss", slashCSSPlugin);
