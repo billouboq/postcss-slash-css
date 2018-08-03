@@ -22,6 +22,11 @@ function slashCSSPlugin(opts = {}) {
     try {
       // get all external targets files
       const cssFilesPath = await glob(opts.targets);
+
+      if (!cssFilesPath.length) {
+        throw new Error("No css files found");
+      }
+
       const getFileContentPromises = cssFilesPath.map(filePath =>
         getFileContent(filePath, "utf-8")
       );

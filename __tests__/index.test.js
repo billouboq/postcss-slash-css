@@ -25,6 +25,16 @@ describe("Test main functions", () => {
     );
   });
 
+  it("Should throw an error if no css files are found", async () => {
+    expect(
+      run(
+        "a{font-size: 12px; color: blue; font-family: Roboto; position: relative;}",
+        "a{position:relative;}",
+        { targets: "./rezaraze.css" }
+      )
+    ).rejects.toThrow("No css files found");
+  });
+
   it("Should remove duplicate css properties", () => {
     return run(
       "a{font-size: 12px; color: blue; font-family: Roboto; position: relative;}",
