@@ -8,7 +8,7 @@ A [PostCSS](https://github.com/postcss/postcss) plugin that removes duplicates c
 npm install postcss-slash-css
 ```
 
-This plugin only supports node v7.6.0 and over.
+This plugin only supports node v8.0.0 and over.
 
 ## Usage
 
