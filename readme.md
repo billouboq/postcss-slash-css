@@ -1,5 +1,7 @@
 # postcss-slash-css
 
+[![Build Status](https://travis-ci.org/billouboq/postcss-slash-css.svg?branch=master)](https://travis-ci.org/billouboq/postcss-slash-css)
+
 A [PostCSS](https://github.com/postcss/postcss) plugin that removes duplicates css properties and selector accross multiples css files.
 
 ## Installation
