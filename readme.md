@@ -40,7 +40,7 @@ npm test
 
 ## Example
 
-You can see multiples exemples in the [example](https://github.com/billouboq/postcss-slash-css/tree/master/examples) folder, including gulp one.
+You can see multiples exemples in the [example](https://github.com/billouboq/postcss-slash-css/tree/master/examples) folder.
 
 ## License
 
