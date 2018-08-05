@@ -1,3 +1,6 @@
+# Examples generated files
+examples/**/result.*.css
+
 # Logs
 logs
 *.log
