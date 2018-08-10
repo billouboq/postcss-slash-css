@@ -20,7 +20,8 @@
     "test": "jest tests"
   },
   "devDependencies": {
-    "jest": "^23.4.2"
+    "gulp-postcss": "^8.0.0",
+    "jest": "^23.5.0"
   },
   "dependencies": {
     "fast-glob": "^2.2.2",
