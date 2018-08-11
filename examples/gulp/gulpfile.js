@@ -2,8 +2,8 @@ const postcss = require('gulp-postcss');
 const gulp = require('gulp');
 const slashCSS = require("../../index");
 
-const inputFilePath = "../assets/normal.css";
-const targetFilePath = "../assets/*.critical.css";
+const inputFilePath = "./normal.css";
+const targetFilePath = "./*.critical.css";
 const outputFilePath = "./result.css";
 
 // plugin we will use in postcss

@@ -4,8 +4,8 @@ const postcss = require("postcss");
 const slashCSS = require("../../index");
 const fs = require("fs");
 
-const inputFilePath = "../assets/normal.css";
-const targetFilePath = "../assets/*.critical.css";
+const inputFilePath = "./normal.css";
+const targetFilePath = "./*.critical.css";
 const outputFilePath = "./result.normal.css";
 
 // plugin we will use in postcss
