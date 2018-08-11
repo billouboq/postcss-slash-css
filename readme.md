@@ -55,6 +55,17 @@ gulp.task('css', function () {
 
 CSS files to search duplicates within source file.
 
+#### mode
+
+- Type: `string` (not case sensitive)
+- Optional
+- Default: `MatchAtleastOne`
+
+Can be `MatchAtleastOne` or `MatchAll`.
+
+If `MatchAll` is used, css will be removed only if it is present in ALL targets files.
+If `MatchAtleastOne` is used, css will be removed when it is present ATLEAST in one of targets css files.
+
 ## Testing
 
 To test this plugin, just run :
