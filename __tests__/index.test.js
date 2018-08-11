@@ -2,6 +2,7 @@
 
 const postcss = require("postcss");
 const slashCSS = require("../index");
+const { MODES } = require("../src/constants");
 
 function run(input, output, opts) {
   return postcss([slashCSS(opts)])
@@ -20,8 +21,28 @@ describe("Test main functions", () => {
   });
 
   it("Should throw an error if targets option is not a string", async () => {
-    expect(() => slashCSS({ targets: 10 })).toThrow(
+    expect(() => slashCSS({
+      targets: 10
+    })).toThrow(
       "Targets option must be a string"
+    );
+  });
+
+  it("Should throw an error if mode option is not a string", async () => {
+    expect(() => slashCSS({
+      targets: "./__tests__/assets/**/*.css",
+      mode: 12
+    })).toThrow(
+      "Mode option must be a string"
+    );
+  });
+
+  it("Should throw an error if mode option is not a valid mode", async () => {
+    expect(() => slashCSS({
+      targets: "./__tests__/assets/**/*.css",
+      mode: "tezrzr"
+    })).toThrow(
+      "Invalid mode option value"
     );
   });
 
@@ -30,7 +51,7 @@ describe("Test main functions", () => {
       run(
         "a{font-size: 12px; color: blue; font-family: Roboto; position: relative;}",
         "a{position:relative;}",
-        { targets: "./rezaraze.css" }
+        {targets: "./rezaraze.css"}
       )
     ).rejects.toThrow("No css files found");
   });
@@ -39,13 +60,48 @@ describe("Test main functions", () => {
     return run(
       "a{font-size: 12px; color: blue; font-family: Roboto; position: relative;}",
       "a{position:relative;}",
-      { targets: "./__tests__/assets/**/*.css" }
+      {targets: "./__tests__/assets/**/*.atleast.css"}
     );
   });
 
   it("Should remove duplicate css selector since all props are removed", () => {
-    return run("a{font-size: 12px; color: blue; font-family: Roboto;}", "", {
-      targets: "./__tests__/assets/**/*.css",
-    });
+    return run(
+      "a{font-size: 12px; color: blue; font-family: Roboto;}",
+      "",
+      {targets: "./__tests__/assets/**/*.atleast.css"}
+    );
+  });
+
+  it("Should remove duplicate css properties MatchAtLeastOne mode", () => {
+    return run(
+      "a{font-size: 12px; color: blue; font-family: Roboto;}",
+      "",
+      {
+        targets: "./__tests__/assets/**/*.atleast.css",
+        mode: MODES.ATLEAST_ONE
+      }
+    );
+  });
+
+  it("Should remove duplicate css properties MatchAll mode", () => {
+    return run(
+      "a{font-size: 12px; color: blue; font-family: Roboto;}",
+      "a{font-size:12px;color:blue;}",
+      {
+        targets: "./__tests__/assets/**/*.all.css",
+        mode: MODES.ALL
+      }
+    );
+  });
+
+  it("Should not remove anything since it does not match all targets files", () => {
+    return run(
+      "a{font-size: 12px;}",
+      "a{font-size:12px;}",
+      {
+        targets: "./__tests__/assets/**/*.all.css",
+        mode: MODES.ALL
+      }
+    );
   });
 });
