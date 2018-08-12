@@ -6,33 +6,15 @@ const postcss = require("postcss");
 const glob = require("fast-glob");
 
 const ERRORS = require("./errors");
-const { MODES } = require("./constants");
+const { checkOptions, setDefaultOptions } = require("./options");
 const { formatAST, getSingleFormatedAST } = require("./ast");
 
 const getFileContent = util.promisify(fs.readFile);
 
 module.exports = function slashCSSPlugin(opts = {}) {
-  const options = Object.assign({}, opts);
+  checkOptions(opts);
 
-  if (!options || !options.targets) {
-    throw new Error(ERRORS.OPTIONS_MISSING);
-  }
-
-  if (typeof options.targets !== "string") {
-    throw new Error(ERRORS.OPTION_NOT_STRING("Targets"));
-  }
-
-  if (options.mode) {
-    if (typeof options.mode !== "string") {
-      throw new Error(ERRORS.OPTION_NOT_STRING("Mode"));
-    }
-
-    if (Object.keys(MODES).every(key => MODES[key].toLowerCase() !== options.mode.toLowerCase())) {
-      throw new Error(ERRORS.INVALID_OPTION("mode"));
-    }
-  } else {
-    options.mode === MODES.ATLEAST_ONE;
-  }
+  const options = setDefaultOptions(opts);
 
   return async (root) => {
     try {
@@ -45,7 +27,7 @@ module.exports = function slashCSSPlugin(opts = {}) {
       const getFileASTPromises = cssFilesPath.map(filePath => {
         return getFileContent(filePath, "utf-8")
           .then(cssContent => postcss.parse(cssContent).nodes)
-          .then(postCSSAST => formatAST(postCSSAST))
+          .then(ast => formatAST({ast, options}));
       });
 
       const singleAST = getSingleFormatedAST({
@@ -58,7 +40,13 @@ module.exports = function slashCSSPlugin(opts = {}) {
 
         if (targetSelector) {
           rule.walkDecls(function (decl) {
-            if (targetSelector.includes(`${decl.prop}|${decl.value}`)) {
+            let propertie = `${decl.prop}|${decl.value}`;
+
+            if (options.checkImportant && decl.important) {
+              propertie += `|important`;
+            }
+
+            if (targetSelector.includes(propertie)) {
               decl.remove();
             }
           });

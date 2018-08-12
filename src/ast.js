@@ -7,7 +7,7 @@ module.exports = {
   getSingleFormatedAST,
 }
 
-function formatAST(ast) {
+function formatAST({ast, options = {}} = {}) {
   const formatedAST = {};
 
   ast.forEach(item => {
@@ -15,8 +15,14 @@ function formatAST(ast) {
       formatedAST[item.selector] = [];
     }
 
-    item.nodes.forEach(({ prop, value }) => {
-      formatedAST[item.selector].push(`${prop}|${value}`);
+    item.nodes.forEach((propertie) => {
+      let formatedProp = `${propertie.prop}|${propertie.value}`;
+
+      if (options.checkImportant && propertie.important) {
+        formatedProp += `|important`;
+      }
+
+      formatedAST[item.selector].push(formatedProp);
     });
   });
 

@@ -66,6 +66,14 @@ Can be `MatchAtleastOne` or `MatchAll`.
 If `MatchAll` is used, css will be removed only if it is present in ALL targets files.
 If `MatchAtleastOne` is used, css will be removed when it is present ATLEAST in one of targets css files.
 
+#### checkImportant
+
+- Type: `boolean`
+- Optional
+- Default: true
+
+if `false` two properties are equals even if one has important and the other does not have it.
+
 ## Testing
 
 To test this plugin, just run :

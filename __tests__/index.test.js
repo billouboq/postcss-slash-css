@@ -28,6 +28,15 @@ describe("Test main functions", () => {
     );
   });
 
+  it("Should throw an error if mode checkImportant is not a boolean", async () => {
+    expect(() => slashCSS({
+      targets: "./__tests__/assets/**/*.css",
+      checkImportant: 12
+    })).toThrow(
+      "CheckImportant option must be a boolean"
+    );
+  });
+
   it("Should throw an error if mode option is not a string", async () => {
     expect(() => slashCSS({
       targets: "./__tests__/assets/**/*.css",
@@ -96,11 +105,33 @@ describe("Test main functions", () => {
 
   it("Should not remove anything since it does not match all targets files", () => {
     return run(
-      "a{font-size: 12px;}",
+      "a{font-size:12px;}",
       "a{font-size:12px;}",
       {
         targets: "./__tests__/assets/**/*.all.css",
         mode: MODES.ALL
+      }
+    );
+  });
+
+  it("Should remove duplicate css properties and not care about important (checkImportant false)", () => {
+    return run(
+      "a{font-size: 12px; top: 3px!important;}",
+      "",
+      {
+        targets: "./__tests__/assets/**/*.atleast.css",
+        checkImportant: false
+      }
+    );
+  });
+
+  it("Should remove duplicate css properties care about important (checkImportant true)", () => {
+    return run(
+      "a{font-size: 12px; top: 3px;}",
+      "a{top:3px;}",
+      {
+        targets: "./__tests__/assets/**/*.atleast.css",
+        checkImportant: true
       }
     );
   });
